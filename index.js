@@ -13,7 +13,7 @@ const dbConfig = {
     port: 3306,
     user: 'root',
     password: 'root',
-    database: 'aula2509'
+    database: 'aula23102025'
 }
 
 // variável que usa somente na conexão com o banco
@@ -28,9 +28,9 @@ let pool;
     }
 })()
 
-app.get('/clientes', async (req, res) => {
+app.get('/rota', async (req, res) => {
     try {
-        const [rows] = await pool.query('SELECT nome FROM clientes')
+        const [rows] = await pool.query('SELECT nome FROM alunos')
         res.json(rows)
     } catch (e) {
         console.log('Erro', e)
