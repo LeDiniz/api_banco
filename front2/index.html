@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consumir API</title>
+</head>
+<body>
+    <h1> Resposta da API - Tela 2: </h1>
+    <div id="resposta"></div>
+
+    <script>
+        //faz a requisição GET para o backend
+        fetch('http://localhost:3003/rota')
+            .then(response => response.json ()) // Lê a resposta como texto
+            .then(data => {
+                let html = "";
+
+                data.forEach(item => {
+                    html += `<p>${item.nome}</p>`
+                });
+                document.getElementById('resposta').innerHTML = html;
+            })
+            .catch(err => console.error("Erro:",err));
+    </script>
+</body>
+</html>
