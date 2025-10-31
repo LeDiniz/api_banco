@@ -13,7 +13,7 @@ const dbConfig = {
     port: 3306,
     user: 'root',
     password: 'root',
-    database: 'aula23102025'
+    database: 'teste'
 }
 
 // variável que usa somente na conexão com o banco
@@ -30,11 +30,33 @@ let pool;
 
 app.get('/rota', async (req, res) => {
     try {
-        const [rows] = await pool.query('SELECT nome FROM alunos')
-        res.json(rows)
+        const [rows] = await pool.query('SELECT id, nome FROM teste');
+        res.json(rows);
     } catch (e) {
-        console.log('Erro', e)
-        res.status(500).json({ erro: 'Erro no servidor' })
+        console.error('Erro', e);
+        res.status(500).json({ erro: 'Erro no servidor' });
+    }
+});
+
+app.post('/rotaAdd', async (req, res) => {
+    try {
+        const { nome } = req.body;
+        await pool.query('INSERT INTO teste (nome) VALUES (?)', [nome]);
+        res.json({ mensagem: 'Registro inserido com sucesso!' });
+    } catch (e) {
+        console.log("Erro", e);
+        res.status(500).json({ erro: 'Erro ao inserir registro' });
+    }
+})
+
+app.delete('/rotaDelete', async (req, res) => {
+    try {
+        const { id } = req.body;
+        await pool.query('DELETE FROM teste WHERE id= (?)', [id]);
+        res.json({ mensagem: 'Registro deletado com sucesso!' });
+    } catch (e) {
+        console.log("Erro", e);
+        res.status(500).json({ erro: 'Erro ao deletar registro' });
     }
 })
 
