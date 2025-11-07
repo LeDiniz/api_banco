@@ -38,6 +38,17 @@ app.get('/rota', async (req, res) => {
     }
 });
 
+app.get('/rotaUnica', async (req, res) => {
+    try {
+        const { id } = req.body;
+        const [rows] = await pool.query('SELECT nome FROM teste WHERE id = (?)', [id]);
+        res.json(rows);
+    } catch (e) {
+        console.log("Erro", e);
+        res.status(500).json({ erro: 'Erro ao buscar registro' });
+    }
+});
+
 app.post('/rotaAdd', async (req, res) => {
     try {
         const { nome } = req.body;
@@ -57,6 +68,18 @@ app.delete('/rotaDelete', async (req, res) => {
     } catch (e) {
         console.log("Erro", e);
         res.status(500).json({ erro: 'Erro ao deletar registro' });
+    }
+})
+
+app.put('/rotaPut', async (req, res) => {
+    try {
+        const { id } = req.body;
+        const { nome } = req.body;
+        await pool.query('UPDATE teste SET nome = (?) WHERE id= (?)', [nome,id]);
+        res.json({ mensagem: 'Registro atualizado com sucesso!' });
+    } catch (e) {
+        console.log("Erro", e);
+        res.status(500).json({ erro: 'Erro ao atualizar registro' });
     }
 })
 
